@@ -15,7 +15,7 @@ Usage:
 # just type "notebook" to start new note
 $ notebook 
 this is text for new note
-/save
+
 Saved. Size: 324| Date: 04.12.2021
 
 # -l --list

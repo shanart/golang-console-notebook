@@ -2,28 +2,38 @@
 
 **NOTE: Work in progress**
 
-This is simple console notebook written on golang. Linux only. 
+This is simple console notebook written on golang. Linux only.
 
 Usage:
 
-```
-$ notebook new
+```bash
+# symbol ">" is indicator to navigate notes with arrows up or down.
+# "Enter" to select note to read/edit
+# "Esc" to exit note
+# Shift+Enter on open note - to save note
+
+# just type "notebook" to start new note
+$ notebook 
 this is text for new note
 /save
-
 Saved. Size: 324| Date: 04.12.2021
 
-$ notebook list
+# -l --list
+$ notebook -l
 > 1     this is text for new ...     04.12.2021
   2     old one note item            03.12.2021
   3     This is very old note...     29.11.2021
 
-$ notebook 1 edit
+# read/edit note
+$ notebook 1
 old one note item _
 
-$ notebook 1 delete
+# -d --delete
+$ notebook -d 1
 deleted
 
-$ notebook 3
-This is ver old note that I make for example
+ # -s --search
+$ notebook -s this is
+> 1     this is text for new ...     04.12.2021
+  3     This is very old note...     29.11.2021
 ```

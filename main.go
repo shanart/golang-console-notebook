@@ -2,36 +2,44 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
 )
 
-var lines = []string{
-	"This is just for example",
-	"New line",
-}
-
 func main() {
-	// create file
-	f, err := os.Create("./storage/file.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	// remember to close the file
-	defer f.Close()
+	scanner := bufio.NewScanner(os.Stdin)
+	lines := []string{}
 
-	// create new buffer
-	buffer := bufio.NewWriter(f)
+	for {
+		scanner.Scan()
+		text := scanner.Text()
 
-	for _, line := range lines {
-		_, err := buffer.WriteString(line + "\n")
-		if err != nil {
-			log.Fatal(err)
+		if len(text) != 0 { /* TODO: this is very primitive method. */
+			lines = append(lines, text)
+		} else {
+			break
 		}
 	}
 
-	// flush buffered data to the file
-	if err := buffer.Flush(); err != nil {
+	// handle error
+	if scanner.Err() != nil {
+		fmt.Println("Error: ", scanner.Err())
+	}
+
+	// TODO: if path exist
+	// TODO: generate file name
+	f, err := os.Create("storage/file.txt")
+	if err != nil {
 		log.Fatal(err)
+	}
+	defer f.Close()
+
+	// Write to file
+	for _, line := range lines {
+		_, err := f.WriteString(line + "\n")
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 }

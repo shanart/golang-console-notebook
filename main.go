@@ -1,45 +1,19 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
-	"log"
-	"os"
+	"flag"
 )
 
+var sep = flag.String("s", " ", "divider")
+
+var f_get = flag.String("--get", "", "Get note")
+var f_create = flag.String("--create", "", "Create new note")
+var f_delete = flag.Int("--delete", 0, "Delete note by id")
+var f_update = flag.String("--update", "", "Update note. Require using -t/--text flag to fill updated note content")
+var f_text = flag.String("--text", "", "Content. Require using -u/--update flag to get updated note id")
+var f_search = flag.String("--search", "", "Search note")
+var f_init = flag.String("--init", "", "Init database")
+
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
-	lines := []string{}
 
-	for {
-		scanner.Scan()
-		text := scanner.Text()
-
-		if len(text) != 0 { /* TODO: this is very primitive method. */
-			lines = append(lines, text)
-		} else {
-			break
-		}
-	}
-
-	// handle error
-	if scanner.Err() != nil {
-		fmt.Println("Error: ", scanner.Err())
-	}
-
-	// TODO: if path exist
-	// TODO: generate file name
-	f, err := os.Create("storage/file.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer f.Close()
-
-	// Write to file
-	for _, line := range lines {
-		_, err := f.WriteString(line + "\n")
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
 }

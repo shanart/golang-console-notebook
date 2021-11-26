@@ -1,6 +1,18 @@
 # Golang console notebook
 
+---
+
+#### TODO:
+- use this lib for db connection https://github.com/mattn/go-sqlite3
+- db connection interface
+- Define Note Struct
+- Catch flags ( + flags "combo" ) and call handlers
+- Screen renderer ( as described below, handle arrow keys )
+- Build 
+
 **NOTE: Work in progress**
+
+---
 
 This is simple console notebook written on golang. Linux only.
 

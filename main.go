@@ -7,6 +7,11 @@ import (
 	"os"
 )
 
+var f_list = flag.Bool("l", false, "List")
+var f_search = flag.String("s", "", "Search note")
+var f_delete = flag.Int("d", 0, "Delete note by id")
+var debug = flag.Bool("debug", false, "Debug mode")
+
 func logger(mode *bool, message string) {
 	if *mode {
 		log.Println(message)
@@ -16,16 +21,10 @@ func logger(mode *bool, message string) {
 func saveNote() {
 	var first string
 	fmt.Scanln(&first)
+	logger(debug, "Note saved")
 }
 
-// create note require
-
 func main() {
-
-	f_list := flag.String("l", "", "List")
-	f_search := flag.String("s", "", "Search note")
-	f_delete := flag.Int("d", 0, "Delete note by id")
-	debug := flag.Bool("debug", false, "Debug mode")
 
 	flag.Parse()
 
@@ -42,15 +41,18 @@ func main() {
 
 	logger(debug, "Read flags")
 
-	if len(*f_list) == 0 && len(*f_search) == 0 && *f_delete == 0 {
+	if !*f_list && len(*f_search) == 0 && *f_delete == 0 {
 		// if all flags are empty - create new note.
 		saveNote()
 	}
 
 	// TODO: if first argument is integer - read/edit this note by id
 
-	fmt.Printf("%s", *f_list)
-	fmt.Printf("%d", *f_delete)
-	fmt.Printf("%s", *f_search)
+	if *f_list {
+		fmt.Println(*f_list)
+	}
+
+	// fmt.Println(*f_delete)
+	// fmt.Println(*f_search)
 
 }

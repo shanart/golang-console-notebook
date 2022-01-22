@@ -13,16 +13,20 @@ func logger(mode *bool, message string) {
 	}
 }
 
+func saveNote() {
+	var first string
+	fmt.Scanln(&first)
+}
+
+// create note require
+
 func main() {
 
-	f_get := flag.String("get", "", "Get note")
-	f_create := flag.String("create", "", "Create new note")
-	f_delete := flag.Int("delete", 0, "Delete note by id")
-	f_update := flag.String("update", "", "Update note. Require using -t/--text flag to fill updated note content")
-	f_text := flag.String("text", "", "Content. Require using -u/--update flag to get updated note id")
-	f_search := flag.String("search", "", "Search note")
-	f_init := flag.String("init", "", "Init database")
+	f_list := flag.String("l", "", "List")
+	f_search := flag.String("s", "", "Search note")
+	f_delete := flag.Int("d", 0, "Delete note by id")
 	debug := flag.Bool("debug", false, "Debug mode")
+
 	flag.Parse()
 
 	if *debug {
@@ -38,12 +42,15 @@ func main() {
 
 	logger(debug, "Read flags")
 
-	fmt.Printf("%s", *f_get)
-	fmt.Printf("%s", *f_create)
+	if len(*f_list) == 0 && len(*f_search) == 0 && *f_delete == 0 {
+		// if all flags are empty - create new note.
+		saveNote()
+	}
+
+	// TODO: if first argument is integer - read/edit this note by id
+
+	fmt.Printf("%s", *f_list)
 	fmt.Printf("%d", *f_delete)
-	fmt.Printf("%s", *f_update)
-	fmt.Printf("%s", *f_text)
 	fmt.Printf("%s", *f_search)
-	fmt.Printf("%s", *f_init)
 
 }

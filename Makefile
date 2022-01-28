@@ -1,4 +1,4 @@
-BINARY_NAME=notebook.out
+BINARY_NAME=notebook
 
 all: build test
 

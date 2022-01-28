@@ -25,27 +25,30 @@ Usage:
 # Shift+Enter on open note - to save note
 
 # just type "notebook" to start new note
-$ notebook 
+$ notebook add
 this is text for new note
 
 Saved. Size: 324| Date: 04.12.2021
 
 # -l --list
-$ notebook -l
+$ notebook list
 > 1     this is text for new ...     04.12.2021
   2     old one note item            03.12.2021
   3     This is very old note...     29.11.2021
 
 # read/edit note
-$ notebook 1
+$ notebook view 
+note id: 2
 old one note item _
 
 # -d --delete
-$ notebook -d 1
-deleted
+$ notebook delete 
+note id: 1
+Note deleted.
 
  # -s --search
-$ notebook -s this is
+$ notebook search 
+search text: this is
 > 1     this is text for new ...     04.12.2021
   3     This is very old note...     29.11.2021
 ```

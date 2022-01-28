@@ -10,6 +10,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// var (
+// 	cfgFile string
+// )
+
 var rootCmd = &cobra.Command{
 	Use:   "notebook",
 	Short: "Simple console notebook.",

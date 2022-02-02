@@ -5,26 +5,16 @@ import (
 	"fmt"
 )
 
-type Color string
-
-const (
-	ColorBlack  Color = "\u001b[30m"
-	ColorRed    Color = "\u001b[31m"
-	ColorGreen  Color = "\u001b[32m"
-	ColorYellow Color = "\u001b[33m"
-	ColorBlue   Color = "\u001b[34m"
-	ColorReset  Color = "\u001b[0m"
-)
-
-func colorize(color Color, message string) {
-	fmt.Println(string(color), message, string(ColorReset))
-}
-
 func main() {
-	useColor := flag.Bool("color", false, "display colorized output")
+
+	flagList := flag.Bool("l", false, "List notes")
+
 	flag.Parse()
 
-	if *useColor {
-		colorize(ColorBlue, "Hello, DigitalOcean!")
+	if *flagList {
+		fmt.Println("List notes")
+	} else {
+		fmt.Println("Create new note mode")
 	}
+
 }

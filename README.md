@@ -35,10 +35,7 @@ $ notebook -l
 > 1     this is text for new ...     04.12.2021
   2     old one note item            03.12.2021
   3     This is very old note...     29.11.2021
-
-# read/edit note
-$ notebook 1
-old one note item _
+# Enter btn to select end view/edit note
 
 # -d --delete
 $ notebook -d 1

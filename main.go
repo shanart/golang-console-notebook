@@ -17,7 +17,7 @@ const (
 )
 
 func colorize(color Color, message string) {
-	fmt.Println(string(color), message, string(ColorReset))
+	fmt.Println(string(color) + message + string(ColorReset))
 }
 
 func main() {
@@ -25,6 +25,8 @@ func main() {
 	flag.Parse()
 
 	if *useColor {
-		colorize(ColorBlue, "Hello, DigitalOcean!")
+		colorize(ColorYellow, "Hello message")
+	} else {
+		fmt.Println("Hello message")
 	}
 }

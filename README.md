@@ -3,9 +3,7 @@
 ---
 
 #### TODO:
-- use this lib for db connection https://github.com/mattn/go-sqlite3
 - db connection interface
-- Define Note Struct
 - Screen renderer ( as described below, handle arrow keys )
 - Build 
 

@@ -3,9 +3,8 @@
 ---
 
 #### TODO:
-- db connection interface
 - Screen renderer ( as described below, handle arrow keys )
-- Build 
+- Linux installer
 
 **NOTE: Work in progress**
 
@@ -36,12 +35,12 @@ $ notebook -l
 
 # -d --delete
 $ notebook -d
-1
+id: 1
 deleted
 
  # -s --search
 $ notebook -s
-this is
+search: this is
 > 1     this is text for new ...     04.12.2021
   3     This is very old note...     29.11.2021
 ```

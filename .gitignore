@@ -17,7 +17,12 @@
 # Dependency directories (remove the comment below to include it)
 vendor/
 
+# build
 notebook
 
+# databases
 *.db
 *.sqlite3
+
+# logger
+*.log

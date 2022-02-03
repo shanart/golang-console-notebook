@@ -1,9 +1,6 @@
 .idea
 .vscode
 
-# Temporary folder to store note files
-/storage/
-
 # Binaries for programs and plugins
 *.exe
 *.exe~
@@ -19,6 +16,13 @@
 
 # Dependency directories (remove the comment below to include it)
 vendor/
+
+# build
+notebook
+
+# databases
+*.db
+*.sqlite3
 
 # logger
 *.log

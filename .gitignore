@@ -20,3 +20,4 @@ vendor/
 notebook
 
 *.db
+*.sqlite3

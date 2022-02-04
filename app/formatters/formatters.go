@@ -5,6 +5,7 @@ import (
 	"notebook/app/config"
 	"notebook/app/models"
 	"strconv"
+	"strings"
 
 	"gorm.io/gorm"
 )
@@ -35,13 +36,37 @@ func FromDBToNotesList(db *gorm.DB, list *sql.Rows) []models.Note {
 	Print Notes array
 */
 func ListNotesItems(notesList []models.Note) []string {
-	result := []string{"ID\tContent\t\t\tCreatedAt\t\tUpdatedAt\n"}
+	result := []string{"ID\tContent\t\t\tCreatedAt\t\tUpdatedAt"}
 	for _, item := range notesList {
 		str := strconv.FormatUint(uint64(item.ID), 10) + "\t"
-		str += item.Content + "\t"
+		str += TruncateText(item.Content, 20) + "\t"
 		str += item.CreatedAt.Format(config.GetConfig().TimeFormat) + "\t"
 		str += item.UpdatedAt.Format(config.GetConfig().TimeFormat) + "\t"
 		result = append(result, str)
 	}
 	return result
+}
+
+/*
+	Truncate string
+*/
+func TruncateText(text string, length uint8) string {
+	if length <= 0 {
+		return ""
+	}
+	truncated := ""
+	var count uint8 = 0
+	for _, char := range text {
+		truncated += string(char)
+		count++
+		if count >= length {
+			break
+		}
+	}
+
+	if len(text) > int(length) {
+		truncated += "..."
+	}
+
+	return strings.ReplaceAll(truncated, "\n", "")
 }

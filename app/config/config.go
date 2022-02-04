@@ -2,8 +2,10 @@ package config
 
 // Config is a struct
 type Config struct {
-	Email string // TODO: change to User struct ( will needed to send emails... )
-	DB    *DBConfig
+	Email         string // TODO: change to User struct ( will needed to send emails... )
+	DB            *DBConfig
+	TimeFormat    string
+	ContentLength uint
 }
 
 // DBConfig is a struct
@@ -15,9 +17,11 @@ type DBConfig struct {
 func GetConfig() *Config {
 	// TODO: Viper configuration plugin
 	return &Config{
-		Email: "test@test.com",
 		DB: &DBConfig{
 			DatabasePath: "notes.sqlite3",
 		},
+		Email:         "test@test.com",
+		TimeFormat:    "2006-01-02 15:04",
+		ContentLength: 35,
 	}
 }

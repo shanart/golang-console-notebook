@@ -1,43 +1,64 @@
 package handlers
 
 import (
+	"bufio"
 	"fmt"
 	"log"
+	"notebook/app/config"
+	"notebook/app/formatters"
+	"notebook/app/models"
 	"notebook/app/storage"
-	"reflect"
+	"os"
+	"strings"
+	"time"
+	"unsafe"
 
 	"gorm.io/gorm"
 )
 
-func List(db *gorm.DB) {
-	list, _ := db.Find(&[]storage.Note{}).Rows()
-	defer list.Close()
+func ListHandler(db *gorm.DB) {
+	result := storage.List(db, 15)
 
-	var note = storage.Note{}
-	for list.Next() {
-		db.ScanRows(list, &note)
-		v := reflect.ValueOf(note)
-		k := v.Type()
-
-		// fmt.Println(note)
-		for i := 0; i < v.NumField(); i++ {
-			fmt.Printf("%s:\t%v\n", k.Field(i).Name, v.Field(i).Interface())
-		}
+	for _, item := range formatters.ListNotesItems(result) {
+		fmt.Println(item)
 	}
 }
 
-func Create(db *gorm.DB) {
-	new_note := storage.Note{Content: "This is test message"}
-	db.Create(&new_note)
+func CreateHandler(db *gorm.DB) {
+	fmt.Print("Enter text:\n")
+	scanner := bufio.NewScanner(os.Stdin)
+	var noteText []string
+	for {
+		scanner.Scan()
+		text := scanner.Text()
+		if len(text) != 0 {
+			noteText = append(noteText, text)
+		} else {
+			break
+		}
+	}
+
+	if scanner.Err() != nil {
+		fmt.Println("Error: ", scanner.Err())
+	}
+
+	if len(noteText) != 0 {
+		note_content := strings.Join(noteText, "\n")
+		new_note := models.Note{Content: note_content}
+		db.Create(&new_note)
+		fmt.Printf("\u001b[32mSaved. Size: %d| Date: %s\u001b[0m\n",
+			unsafe.Sizeof(note_content),
+			time.Now().Format(config.GetConfig().TimeFormat))
+	}
 }
 
-func Search() {
+func SearchHandler() {
 	fmt.Println("Search Handler")
 	// var search string
 	// TODO: scan
 }
 
-func Delete() {
+func DeleteHandler() {
 	log.Println("Delete Handler")
 	// var id int
 	// TODO: scan

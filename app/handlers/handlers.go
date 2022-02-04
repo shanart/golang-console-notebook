@@ -3,41 +3,33 @@ package handlers
 import (
 	"fmt"
 	"log"
+	"notebook/app/formatters"
+	"notebook/app/models"
 	"notebook/app/storage"
-	"reflect"
 
 	"gorm.io/gorm"
 )
 
-func List(db *gorm.DB) {
-	list, _ := db.Find(&[]storage.Note{}).Rows()
-	defer list.Close()
+func ListHandler(db *gorm.DB) {
+	result := storage.List(db, 10)
 
-	var note = storage.Note{}
-	for list.Next() {
-		db.ScanRows(list, &note)
-		v := reflect.ValueOf(note)
-		k := v.Type()
-
-		// fmt.Println(note)
-		for i := 0; i < v.NumField(); i++ {
-			fmt.Printf("%s:\t%v\n", k.Field(i).Name, v.Field(i).Interface())
-		}
+	for _, item := range formatters.ListNotesItems(result) {
+		fmt.Println(item)
 	}
 }
 
-func Create(db *gorm.DB) {
-	new_note := storage.Note{Content: "This is test message"}
+func CreateHandler(db *gorm.DB) {
+	new_note := models.Note{Content: "This is test message"}
 	db.Create(&new_note)
 }
 
-func Search() {
+func SearchHandler() {
 	fmt.Println("Search Handler")
 	// var search string
 	// TODO: scan
 }
 
-func Delete() {
+func DeleteHandler() {
 	log.Println("Delete Handler")
 	// var id int
 	// TODO: scan

@@ -2,8 +2,9 @@ package config
 
 // Config is a struct
 type Config struct {
-	Email string // TODO: change to User struct ( will needed to send emails... )
-	DB    *DBConfig
+	Email      string // TODO: change to User struct ( will needed to send emails... )
+	DB         *DBConfig
+	TimeFormat string
 }
 
 // DBConfig is a struct
@@ -19,5 +20,6 @@ func GetConfig() *Config {
 		DB: &DBConfig{
 			DatabasePath: "notes.sqlite3",
 		},
+		TimeFormat: "2006-01-02 15:04",
 	}
 }

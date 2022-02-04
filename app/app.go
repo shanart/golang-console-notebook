@@ -35,12 +35,12 @@ func (a *App) Run() {
 	flag.Parse()
 
 	if *flagList {
-		handlers.List(a.DB)
+		handlers.ListHandler(a.DB)
 	} else if *flagDelete {
-		handlers.Delete()
+		handlers.DeleteHandler()
 	} else if *flagSearch {
-		handlers.Search()
+		handlers.SearchHandler()
 	} else {
-		handlers.Create(a.DB)
+		handlers.CreateHandler(a.DB)
 	}
 }

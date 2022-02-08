@@ -52,6 +52,7 @@ func layout(g *gocui.Gui) error {
 		}
 		v.Title = "Sidebar"
 		fmt.Fprintln(v, "Sidebar notes tree")
+		// TODO: list of notes
 	}
 
 	if v, err := g.SetView("editor", 31, 0, maxX-1, maxY-1); err != nil {
@@ -64,6 +65,7 @@ func layout(g *gocui.Gui) error {
 		v.Wrap = true
 
 		fmt.Fprintln(v, "Note detail")
+		// TODO: add note detail ls like title, date created, size, number of characters
 	}
 	return nil
 }

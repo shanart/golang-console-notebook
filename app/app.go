@@ -156,13 +156,14 @@ func cursorUp(g *gocui.Gui, v *gocui.View) error {
 }
 
 func selectNote(g *gocui.Gui, v *gocui.View) error {
+
+	// TODO: This is very incorrect method to get note ID
 	_, cy := v.Cursor()
 	line, _ := v.Line(cy)
 	id, _ := strconv.Atoi(line[0:1])
-
 	note := storage.GetById(id, app.DB)
-
 	editor, _ := g.View("editor")
+
 	editor.Clear()
 	fmt.Fprintln(editor, note[0].Content)
 

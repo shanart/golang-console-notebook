@@ -118,6 +118,8 @@ func setCurrentViewOnTop(g *gocui.Gui, name string) (*gocui.View, error) {
 }
 
 func nextView(g *gocui.Gui, v *gocui.View) error {
+
+	// TODO: Save current buffer
 	nextIndex := (active + 1) % len(viewArr)
 	name := viewArr[nextIndex]
 
@@ -138,20 +140,11 @@ func nextView(g *gocui.Gui, v *gocui.View) error {
 func cursorDown(g *gocui.Gui, v *gocui.View) error {
 	if v != nil {
 		cx, cy := v.Cursor()
+		ox, oy := v.Origin()
 
-		if cy+1 < len(app.notes) {
-			if err := v.SetCursor(cx, cy+1); err != nil {
-				ox, oy := v.Origin()
-				if err := v.SetOrigin(ox, oy+1); err != nil {
-					return err
-				}
-			}
-		} else {
-			if err := v.SetCursor(cx, cy); err != nil {
-				ox, oy := v.Origin()
-				if err := v.SetOrigin(ox, oy); err != nil {
-					return err
-				}
+		if err := v.SetCursor(cx, cy+1); err != nil && (cy+oy)+1 < len(app.notes) {
+			if err := v.SetOrigin(ox, oy+1); err != nil {
+				return err
 			}
 		}
 	}
@@ -173,8 +166,10 @@ func cursorUp(g *gocui.Gui, v *gocui.View) error {
 
 func selectNote(g *gocui.Gui, v *gocui.View) error {
 
-	_, index := v.Cursor()
-	note := app.notes[index]
+	_, cy := v.Cursor()
+	_, oy := v.Origin()
+
+	note := app.notes[cy+oy]
 	editor, _ := g.View("editor")
 	editor.Clear()
 	fmt.Fprintln(editor, note.Content)

@@ -3,19 +3,20 @@ package app
 import (
 	"fmt"
 	"log"
-	"strconv"
 
 	"github.com/jroimartin/gocui"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 
 	"notebook/app/config"
-	"notebook/app/handlers"
+	"notebook/app/formatters"
+	"notebook/app/models"
 	"notebook/app/storage"
 )
 
 type App struct {
-	DB *gorm.DB
+	DB    *gorm.DB
+	notes []models.Note
 }
 
 var (
@@ -32,6 +33,8 @@ func Run(config *config.Config) {
 		log.Panic()
 	}
 	app.DB = storage.Migrate(db)
+
+	app.notes = storage.List(app.DB)
 
 	g, err := gocui.NewGui(gocui.OutputNormal)
 	if err != nil {
@@ -83,7 +86,10 @@ func layout(g *gocui.Gui) error {
 		v.SelBgColor = gocui.ColorGreen
 		v.SelFgColor = gocui.ColorBlack
 
-		handlers.ListHandler(v, app.DB)
+		// handlers.ListHandler(v, app.DB)
+		for _, item := range formatters.ListNotesItems(app.notes) {
+			fmt.Fprintln(v, item)
+		}
 	}
 
 	if v, err := g.SetView("editor", 36, 0, maxX-1, maxY-1); err != nil {
@@ -132,10 +138,20 @@ func nextView(g *gocui.Gui, v *gocui.View) error {
 func cursorDown(g *gocui.Gui, v *gocui.View) error {
 	if v != nil {
 		cx, cy := v.Cursor()
-		if err := v.SetCursor(cx, cy+1); err != nil {
-			ox, oy := v.Origin()
-			if err := v.SetOrigin(ox, oy+1); err != nil {
-				return err
+
+		if cy+1 < len(app.notes) {
+			if err := v.SetCursor(cx, cy+1); err != nil {
+				ox, oy := v.Origin()
+				if err := v.SetOrigin(ox, oy+1); err != nil {
+					return err
+				}
+			}
+		} else {
+			if err := v.SetCursor(cx, cy); err != nil {
+				ox, oy := v.Origin()
+				if err := v.SetOrigin(ox, oy); err != nil {
+					return err
+				}
 			}
 		}
 	}
@@ -157,15 +173,11 @@ func cursorUp(g *gocui.Gui, v *gocui.View) error {
 
 func selectNote(g *gocui.Gui, v *gocui.View) error {
 
-	// TODO: This is very incorrect method to get note ID
-	_, cy := v.Cursor()
-	line, _ := v.Line(cy)
-	id, _ := strconv.Atoi(line[0:1])
-	note := storage.GetById(id, app.DB)
+	_, index := v.Cursor()
+	note := app.notes[index]
 	editor, _ := g.View("editor")
-
 	editor.Clear()
-	fmt.Fprintln(editor, note[0].Content)
+	fmt.Fprintln(editor, note.Content)
 
 	return nil
 }

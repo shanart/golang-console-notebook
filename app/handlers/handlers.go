@@ -13,14 +13,15 @@ import (
 	"time"
 	"unsafe"
 
+	"github.com/jroimartin/gocui"
 	"gorm.io/gorm"
 )
 
-func ListHandler(db *gorm.DB) {
-	result := storage.List(db, 15)
+func ListHandler(v *gocui.View, db *gorm.DB) {
+	result := storage.List(db)
 
 	for _, item := range formatters.ListNotesItems(result) {
-		fmt.Println(item)
+		fmt.Fprintln(v, item)
 	}
 }
 

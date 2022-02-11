@@ -21,7 +21,7 @@ func GetConfig() *Config {
 			DatabasePath: "notes.sqlite3",
 		},
 		Email:         "test@test.com",
-		TimeFormat:    "2006-01-02 15:04",
+		TimeFormat:    "2006-01-02",
 		ContentLength: 35,
 	}
 }

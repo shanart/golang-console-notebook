@@ -36,12 +36,13 @@ func FromDBToNotesList(db *gorm.DB, list *sql.Rows) []models.Note {
 	Print Notes array
 */
 func ListNotesItems(notesList []models.Note) []string {
-	result := []string{"ID\tContent\t\t\tCreatedAt\t\tUpdatedAt"}
+	// result := []string{"ID\tContent\t\t\tCreatedAt\t\tUpdatedAt"}
+	result := []string{}
 	for _, item := range notesList {
 		str := strconv.FormatUint(uint64(item.ID), 10) + "\t"
-		str += TruncateText(item.Content, 20) + "\t"
+		str += TruncateText(item.Content, 18) + "\t"
 		str += item.CreatedAt.Format(config.GetConfig().TimeFormat) + "\t"
-		str += item.UpdatedAt.Format(config.GetConfig().TimeFormat) + "\t"
+		// str += item.UpdatedAt.Format(config.GetConfig().TimeFormat) + "\t"
 		result = append(result, str)
 	}
 	return result

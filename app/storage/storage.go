@@ -20,8 +20,15 @@ func (u *DBRepository) Create(note *models.Note) {
 	u.db.Create(&note)
 }
 
-func List(db *gorm.DB, limit int) []models.Note {
+func List(db *gorm.DB) []models.Note {
 	list, _ := db.Find(&[]models.Note{}).Rows()
+	defer list.Close()
+
+	return formatters.FromDBToNotesList(db, list)
+}
+
+func GetById(id int, db *gorm.DB) []models.Note {
+	list, _ := db.Find(&[]models.Note{}, []int{id}).Rows()
 	defer list.Close()
 
 	return formatters.FromDBToNotesList(db, list)
